@@ -68,7 +68,9 @@ namespace CodeAnalysisApp1
 
 							foreach (var method in methods)
 							{								
-								Console.WriteLine($"- {method.Identifier}, starts on line {method.GetLocation().GetMappedLineSpan().StartLinePosition.Line}");
+								Console.WriteLine($"- {method.Identifier}, starts on line {method.GetLocation().GetMappedLineSpan().StartLinePosition.Line + 1}");
+								var parameters = method.ParameterList.ChildNodes().OfType<ParameterSyntax>();
+								Console.WriteLine($"    {string.Join(", ", parameters.Select(p => $"{p.Type} {p.Identifier}"))}");
 								//Console.WriteLine("  " + string.Join(", ", method.TypeParameterList)
 							}
 						}
