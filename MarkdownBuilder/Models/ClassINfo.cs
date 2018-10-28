@@ -7,7 +7,7 @@ namespace RoslynDocumentor.Models
 		public string Name { get; set; }
 		public bool IsStatic { get; set; }
 		public string Description { get; set; }
-		public string SourceFile { get; set; }
+		public Location Location { get; set; }
 		public IEnumerable<MethodInfo> Methods { get; set; }
 		public IEnumerable<PropertyInfo> Properties { get; set; }
 	}
