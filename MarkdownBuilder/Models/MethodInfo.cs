@@ -14,6 +14,7 @@ namespace RoslynDocumentor.Models
 
 		public class Parameter
 		{
+			public bool IsGeneric { get; set; }
 			public string Name { get; set; }
 			public string TypeName { get; set; }
 			public Location TypeLocation { get; set; }
