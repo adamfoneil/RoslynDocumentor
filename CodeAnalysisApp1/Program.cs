@@ -11,6 +11,7 @@ using Microsoft.CodeAnalysis.CSharp.Symbols;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.CodeAnalysis.Text;
+using RoslynDocumentor;
 
 namespace CodeAnalysisApp1
 {
@@ -45,37 +46,7 @@ namespace CodeAnalysisApp1
 				var solution = await workspace.OpenSolutionAsync(solutionPath, new ConsoleProgressReporter());
 				Console.WriteLine($"Finished loading solution '{solutionPath}'");
 
-				foreach (var project in solution.Projects)
-				{
-					if (project.Name.Equals(args[1]))
-					{
-						foreach (var doc in project.Documents)
-						{																				
-							var tree = await doc.GetSyntaxTreeAsync();
-
-							// thanks to https://www.filipekberg.se/2011/10/21/getting-all-methods-from-a-code-file-with-roslyn/
-							// https://github.com/dotnet/roslyn/issues/22629 for line number help
-
-							var methods = tree.GetRoot()
-								.DescendantNodes()								
-								.OfType<MethodDeclarationSyntax>()
-								.Where(method => method.Modifiers.Any(mod => mod.Value.Equals("public"))).ToList();
-
-							if (methods.Any())
-							{
-								Console.WriteLine(doc.Name);
-							}
-
-							foreach (var method in methods)
-							{								
-								Console.WriteLine($"- {method.Identifier}, starts on line {method.GetLocation().GetMappedLineSpan().StartLinePosition.Line + 1}");
-								var parameters = method.ParameterList.ChildNodes().OfType<ParameterSyntax>();
-								Console.WriteLine($"    {string.Join(", ", parameters.Select(p => $"{p.Type} {p.Identifier}"))}");
-								//Console.WriteLine("  " + string.Join(", ", method.TypeParameterList)
-							}
-						}
-					}
-				}
+				await workspace.GenerateMarkdownDocAsync(args[0], new ConsoleProgressReporter());
 			}
 
 			Console.WriteLine("done");
