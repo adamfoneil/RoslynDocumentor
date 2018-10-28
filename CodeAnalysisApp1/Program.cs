@@ -46,7 +46,7 @@ namespace CodeAnalysisApp1
 				var solution = await workspace.OpenSolutionAsync(solutionPath, new ConsoleProgressReporter());
 				Console.WriteLine($"Finished loading solution '{solutionPath}'");
 
-				await workspace.GenerateMarkdownDocAsync(args[0], new ConsoleProgressReporter());
+				await workspace.GetPublicMethods(args[0], new ConsoleProgressReporter());
 			}
 
 			Console.WriteLine("done");
