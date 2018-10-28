@@ -6,6 +6,9 @@ namespace RoslynDocumentor.Models
 	{
 		public string Name { get; set; }
 		public bool IsStatic { get; set; }
+		/// <summary>
+		/// XML summary comments
+		/// </summary>
 		public string Description { get; set; }
 		public Location Location { get; set; }
 		public IEnumerable<MethodInfo> Methods { get; set; }
